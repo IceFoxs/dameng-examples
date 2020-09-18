@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--    &lt;!&ndash; 属性文件 &ndash;&gt;-->
+    <property name="logDir" value="/Users/icefox/Documents/logs"/>
+
+    <!-- 默认的控制台日志输出，一般生产环境都是后台启动，这个没太大作用 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%thread] %-5level %logger{50}:%L - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 配置文件轮转 -->
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<Encoding>UTF-8</Encoding>-->
+        <append>true</append>
+        <file>${logDir}/dm-demo.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/dm-demo.log.%d{yyyy-MM-dd}.%i</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>15</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%date [%thread] %-5level %logger{50}:%L - %msg%n</pattern>
+        </layout>
+        <encoder>
+            <Pattern>%date %level %msg%n%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 可选节点，用来具体指明包的日志输出级别，它将会覆盖root的输出级别 -->
+    <logger name="io.icefox" level="ERROR,INFO,DEBUG"/>
+    <logger name="com.zaxxer.hikari" level="DEBUG"/>
+    <logger name="com.alibaba.druid" level="DEBUG"/>
+    <!-- root 默认日志配置 ， 注意这里的级别哈！小心生产环境用DEBUG，压爆你的磁盘！-->
+    <root level="DEBUG">
+        <appender-ref ref="logfile"/>
+        <appender-ref ref="stdout"/>
+    </root>
+    <!--    <root level="DEBUG">-->
+    <!--        <appender-ref ref="logfile"/>-->
+    <!--        <appender-ref ref="stdout"/>-->
+    <!--    </root>-->
+</configuration>
