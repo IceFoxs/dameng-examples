@@ -28,13 +28,19 @@ public class DataSourceConfig {
 
     @Value("${spring.datasource.validation-query}")
     private String validationQuery;
-
     @Value("${datasource.type}")
     private String type;
+    @Value("${spring.datasource.maximum-pool-size}")
+    private int maximumPoolSize;
+    @Value("${spring.datasource.minimum-idle}")
+    private int minimumIdle;
+
+    private final static String Druid = "Druid";
+    private final static String HikariCP = "HikariCP";
 
     @Bean
     DataSource dataSource() {
-        if (type.equals("druid")) {
+        if (Druid.equalsIgnoreCase(type)) {
             DruidDataSource druidDataSource = new DruidDataSource();
             druidDataSource.setUrl(url);
             druidDataSource.setUsername(username);
@@ -42,6 +48,8 @@ public class DataSourceConfig {
             druidDataSource.setDriverClassName(driverClassName);
             druidDataSource.setTestWhileIdle(testWhileIdle);
             druidDataSource.setValidationQuery(validationQuery);
+            druidDataSource.setMaxActive(maximumPoolSize);
+            druidDataSource.setMinIdle(minimumIdle);
             return druidDataSource;
         } else {
             HikariDataSource hikariDataSource = new HikariDataSource();
@@ -49,6 +57,8 @@ public class DataSourceConfig {
             hikariDataSource.setUsername(username);
             hikariDataSource.setPassword(password);
             hikariDataSource.setDriverClassName(driverClassName);
+            hikariDataSource.setMaximumPoolSize(maximumPoolSize);
+            hikariDataSource.setMinimumIdle(minimumIdle);
             return hikariDataSource;
         }
     }
