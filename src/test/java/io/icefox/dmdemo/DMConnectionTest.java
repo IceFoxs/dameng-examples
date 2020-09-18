@@ -58,11 +58,11 @@ public class DMConnectionTest {
         druidDataSource.setPassword("root@admin123");
         druidDataSource.setUsername("SYSDBA");
         DruidPooledConnection connection = druidDataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT mc,id FROM SYSDBA.fy_ajxx");
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT id,username FROM SYSDBA.f_user");
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             System.out.println(resultSet.getString("id"));
-            System.out.println(resultSet.getString("mc"));
+            System.out.println(resultSet.getString("username"));
         }
 
     }
