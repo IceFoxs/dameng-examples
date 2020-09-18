@@ -13,12 +13,16 @@ UNIQUE("username", "age")) STORAGE(ON "MAIN", CLUSTERBTR) ;
 
 UPDATE f_user set age=100 WHERE id='13213';
 
-/***Manager***/create trigger "SYSDBA"."312321321"
+create or replace trigger "SYSDBA"."312321321"
 before UPDATE of "id","username","age","cjsj","xgsj"
 on "SYSDBA"."f_user"
 for each row
 BEGIN
-	/*触发器体*/
- :NEW.xgsj=NOW;
+    /*触发器体*/
+    IF UPDATING THEN
+    :NEW.xgsj=CURRENT_TIMESTAMP ;
+    END IF;
 END;
+
+
 
