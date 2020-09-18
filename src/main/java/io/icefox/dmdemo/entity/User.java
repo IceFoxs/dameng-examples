@@ -18,6 +18,9 @@ public class User {
     @TableField("age")
     private Integer age;
 
+    @TableField("sfrz")
+    private Boolean auth;
+
     @TableField("cjsj")
     private Timestamp createTime;
 
@@ -62,6 +65,14 @@ public class User {
 
     public void setModifyTime(Timestamp modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Boolean getAuth() {
+        return auth;
+    }
+
+    public void setAuth(Boolean auth) {
+        this.auth = auth;
     }
 
     @Override
