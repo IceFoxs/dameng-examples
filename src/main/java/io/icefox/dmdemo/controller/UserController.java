@@ -35,7 +35,6 @@ public class UserController {
         page.setSize(jsonObject.getInteger("pageSize"));
         page.setCurrent(jsonObject.getInteger("pageIndex"));
         LambdaQueryWrapper<User> queryWrapper = Wrappers.<User>lambdaQuery();
-      //  queryWrapper.eq(User::getUsername,"赵云涛");
         IPage<User> userIPage = userService.page(page, queryWrapper);
         return userIPage.getRecords();
     }
