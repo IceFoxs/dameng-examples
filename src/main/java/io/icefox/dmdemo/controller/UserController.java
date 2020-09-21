@@ -45,4 +45,11 @@ public class UserController {
         userService.saveOrUpdate(user);
         return user;
     }
+
+    @ResponseBody
+    @RequestMapping("/deleteUser")
+    public JSONObject deleteUser() {
+        userService.remove(Wrappers.emptyWrapper());
+        return new JSONObject();
+    }
 }
