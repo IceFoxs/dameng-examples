@@ -1,5 +1,6 @@
 package io.icefox.dmdemo.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.icefox.dmdemo.entity.User;
 import io.icefox.dmdemo.service.UserService;
 import com.alibaba.fastjson.JSONObject;
@@ -43,10 +44,14 @@ public class UserController {
     @ResponseBody
     @RequestMapping("/saveUser")
     public User saveUser(@RequestBody User user) {
-        String id = UUID.randomUUID().toString();
-        user.setId(id);
-        userService.saveOrUpdate(user);
-        user = userService.getById(id);
+        if (StringUtils.isBlank(user.getId())) {
+            String id = UUID.randomUUID().toString();
+            user.setId(id);
+            userService.saveOrUpdate(user);
+        } else {
+            userService.updateById(user);
+        }
+        user = userService.getById(user.getId());
         return user;
     }
 
